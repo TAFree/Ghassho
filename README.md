@@ -17,6 +17,6 @@ sudo docker run ...
 Do not forget prerequisites for each judge script and lab assignment. 
 ```
 git clone http://github.com/Tafree/Ghassho.git
-cd ./Ghassho && chmod +x judger.sh'
+cd ./Ghassho && chmod +x judger.sh
 ./judger.sh start
 ```
