@@ -3,7 +3,7 @@
 
 # File	      : judger.sh
 # Description : A daemon plays the role of a TAFree judge client.
-# Creator     : Yu Tzu Wu
+# Creator     : Yu Tzu Wu (abby8050@gmail.com)
 
 
 # Constant
