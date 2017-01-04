@@ -1,0 +1,5 @@
+# Ignore log & pid file
+judger.log
+monitor.log
+judger.pid
+monitor.pid
