@@ -13,7 +13,7 @@ LOG_JUDGER_FILE=judger.log
 LOG_MONITOR_FILE=monitor.log
 
 
-# Variables
+# Variable
 ACTION=$1
 PID_JUDGER=""
 INTERVAL=1
@@ -48,12 +48,12 @@ start_monitor() {
 
 stop() {
 	if [ -e $PID_MONITOR_FILE ]; then
-		kill -9 $(cat $PID_MONITOR_FILE) 
+		kill $(cat $PID_MONITOR_FILE) 
 		rm $PID_MONITOR_FILE
 		echo "Monitor has stoped"		
 	fi
 	if [ -e $PID_JUDGER_FILE ]; then
-		kill -9 $(cat $PID_JUDGER_FILE) 
+		kill $(cat $PID_JUDGER_FILE) 
 		rm $PID_JUDGER_FILE
 		echo "Judger has stoped"		
 	fi
