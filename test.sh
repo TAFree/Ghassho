@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-CMD=php
-JUDGESCRIPT=test.php
 
-exec ${CMD} ${JUDGESCRIPT}
+STRING="tes.t.php"
+declare -i POS
+declare -i LEN
+POS=`expr index "${STRING}" '.'`
+LEN=`expr length "${STRING}"` 
+echo `expr substr ${STRING} ${POS} ${LEN}`
+
+
+
