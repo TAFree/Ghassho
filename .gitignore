@@ -3,6 +3,3 @@ judger.log
 monitor.log
 judger.pid
 monitor.pid
-
-# Ignore MySQL configuration
-mysql

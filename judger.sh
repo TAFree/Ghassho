@@ -2,8 +2,9 @@
 
 
 # File	      : judger.sh
-# Description : A daemon plays the role of a TAFree judge client.
+# Description : A daemon plays the role of TAFree judge client.
 # Creator     : Yu Tzu Wu <abby8050@gmail.com>
+# License     : MIT
 
 
 # Constant
@@ -17,6 +18,7 @@ LOG_MONITOR_FILE=monitor.log
 ACTION=$1
 PID_JUDGER=""
 INTERVAL=1
+COMMAND=./judge_adapter.sh
 
 
 # Function
@@ -31,12 +33,8 @@ monitor() {
 	done
 }
 
-judger() {
-	# Connect to MySQL
-}
-
 start_judger() {
-	judger &> $LOG_JUDGER_FILE &
+	$COMMAND &> $LOG_JUDGER_FILE &
 	PID_JUDGER=$!
 	echo $PID_JUDGER > $PID_JUDGER_FILE
 }

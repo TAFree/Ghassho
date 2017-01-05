@@ -18,6 +18,6 @@ Do not forget prerequisites for each judge script and lab assignment.
 ```
 git clone http://github.com/Tafree/Ghassho.git
 cd ./Ghassho
-sudo chmod +x judger.sh
-./judger.sh start
+sudo chmod +x judger.sh judge_adapter.sh
+sudo ./judger.sh start
 ```
