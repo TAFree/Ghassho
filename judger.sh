@@ -12,6 +12,7 @@ PID_JUDGER_FILE=judger.pid
 PID_MONITOR_FILE=monitor.pid
 LOG_JUDGER_FILE=judger.log
 LOG_MONITOR_FILE=monitor.log
+TMP_JUDGER_DIR=.process
 
 
 # Variable
@@ -34,6 +35,11 @@ monitor() {
 }
 
 start_judger() {
+	if [ ! -d $TMP_JUDGER_DIR ]; then
+		mkdir $TMP_JUDGER_DIR
+	elif [ -n "$(ls -a ${TMP_JUDGER_DIR})" ]; then
+		rm -rf $TMP_JUDGER_DIR/*
+	fi
 	$COMMAND &> $LOG_JUDGER_FILE &
 	PID_JUDGER=$!
 	echo $PID_JUDGER > $PID_JUDGER_FILE

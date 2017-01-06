@@ -5,4 +5,4 @@ judger.pid
 monitor.pid
 
 # Ignore script directory
-.script/*
+.process/*

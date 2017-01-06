@@ -12,7 +12,8 @@ declare -r JA_MYSQL_OPTS="--login-path=${JA_MYSQL_LOGINPATH} --database=${JA_MYS
 declare -r JA_CLIENT_HOSTNAME=$(hostname)
 declare -r JA_CLIENT_UNIQUE="$(uuidgen)"
 declare -r JA_CLIENT_SIGNATURE="${JA_CLIENT_UNIQUE}\n(${JA_CLIENT_HOSTNAME})"
-declare -r JA_CLIENT_DIR=".script"
+declare -r JA_CLIENT_DIR=".process"
+declare -r JA_CLIENT_UNIQUE_DIR="${JA_CLIENT_DIR}/${JA_CLIENT_UNIQUE}/script" 
 
 
 ##
@@ -50,26 +51,39 @@ function fetchAssoc () {
 	declare -i index=0
 	declare -i line=0
 	
-	read -a words <<< "${result}"
+	read -a names <<< "${result}"
 	for name in "${names[@]}"; do
-		if [[ $name -eq $key ]]; then
+		if [[ "$name" == "$key" ]]; then
 			break
 		fi
-		index=$(($index + 1))		
+		index=$(($index+1))		
 	done
 	
 	while read -a words; do
 		if [[ $line -eq 1 ]]; then
 			echo ${words[${index}]}
 		fi
-		line=$(($line + 1)) 
+		line=$(($line+1)) 
 	done <<< "${result}"
 	
 }
 
 
+## 
+# Fetch only one column value from a SQL query result
+# @param string query result
+# @return string column value
+function fetchOneCol () {
+
+	local result="$1"
+	
+	echo "${result#content[[:ascii:]]}"
+
+}
+
+
 ##
-# Query variable
+# Parameters for querying
 STUDENT_ACCOUNT="student_account"
 ITEM="item"
 SUBITEM="subitem"
@@ -77,12 +91,13 @@ JUDGESCRIPT="judgescript"
 CONTENT="content"
 CMD="cmd"
 EXT=""
+JUDGEFILE=""
 
 
 ## 
-# Query function
+# Functions for querying
 function querySubmission () {
-	
+
 	declare -r TEST_QUERY_SUBMISSION="\
 	UPDATE process SET judger='${JA_CLIENT_SIGNATURE}' WHERE judger IS NULL ORDER BY id LIMIT 1;\
 	SELECT student_account, item, subitem FROM process WHERE judger='${JA_CLIENT_SIGNATURE}';"
@@ -92,37 +107,50 @@ function querySubmission () {
 	if [[ -n $submission ]]; then
 		STUDENT_ACCOUNT=$(fetchAssoc "${submission}" "${STUDENT_ACCOUNT}")
 		ITEM=$(fetchAssoc "${submission}" "${ITEM}")
-		SUBITEM=$(fetchAssoc "${submission}" "${SUBITEM}")
+		SUBITEM=$(fetchAssoc "${submission}" "${SUBITEM}")	
 	else
+		echo "No new submission" >&2
 		exit 1
 	fi
 
 }
 
-
-## 
-# Query function
 function queryScript () {
-	
+
 	declare -r TEST_QUERY_SCRIPT="\
-	SELECT judgescript, content FROM ${ITEM} WHERE subitem='${SUBITEM}';"
+	SELECT judgescript FROM ${ITEM} WHERE subitem='${SUBITEM}';"
 
 	local script=$(mysqlQuery "${JA_MYSQL_OPTS}" "${TEST_QUERY_SCRIPT}")
 
 	if [[ -n $script ]]; then
 		JUDGESCRIPT=$(fetchAssoc "${script}" "${JUDGESCRIPT}")
-		CONTENT=$(fetchAssoc "${script}" "${CONTENT}")
 	else
+		echo "No judge script filename there" >&2
 		exit 1
 	fi
 
 }
 
+function queryContent () {
 
-## 
-# Query function
+	declare -r TEST_QUERY_CONTENT="\
+	SELECT content FROM ${ITEM} WHERE subitem='${SUBITEM}';"
+
+	local content=$(mysqlQuery "${JA_MYSQL_OPTS}" "${TEST_QUERY_CONTENT}")
+
+	if [[ -n $content ]]; then
+		CONTENT=$(fetchOneCol "${content}")
+	else
+		echo "No judge script content there" >&2
+		exit 1
+	fi
+
+}
+
 function queryCommand () {
-	
+
+	EXT="${JUDGESCRIPT##*.}"
+
 	declare -r TEST_QUERY_SUPPORT="\
 	SELECT cmd FROM support WHERE ext='${EXT}';"
 	
@@ -131,6 +159,7 @@ function queryCommand () {
 	if [[ -n $command ]]; then
 		CMD=$(fetchAssoc "${command}" "${CMD}")
 	else
+		echo "Not support file (.${EXT})" >&2
 		exit 1
 	fi
 
@@ -138,17 +167,16 @@ function queryCommand () {
 
 
 ##
-# Launch query function and execute judge script
-$(querySubmission && queryScript)
-echo $CONTENT
-
-
-##
-# Execute judge script
-#JUDGEDIR="${JA_CLIENT_DIR}/${JA_CLIENT_UNIQUE}"
-#JUDGEFILE="${JUDGEDIR}/${JUDGESCRIPT}"
-#echo ${CONTENT} > ${JUDGEFILE}
-#exec ${CMD} ${JUDGEFILE} ${STUDENT_ACCOUNT} ${ITEM} ${SUBITEM}
+# Launch functions and execute judge script
+querySubmission
+queryScript
+queryContent
+queryCommand
+mkdir ${JA_CLIENT_DIR}/${JA_CLIENT_UNIQUE}
+mkdir ${JA_CLIENT_UNIQUE_DIR}
+JUDGEFILE="${JA_CLIENT_UNIQUE_DIR}/${JUDGESCRIPT}"
+echo ${CONTENT} > ${JUDGEFILE}
+exec ${CMD} ${JUDGEFILE} ${STUDENT_ACCOUNT} ${ITEM} ${SUBITEM}
 
 
 
