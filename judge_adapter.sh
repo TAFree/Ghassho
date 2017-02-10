@@ -87,6 +87,7 @@ function fetchOneCol () {
 STUDENT_ACCOUNT="student_account"
 ITEM="item"
 SUBITEM="subitem"
+ID="id"
 JUDGESCRIPT="judgescript"
 CONTENT="content"
 CMD="cmd"
@@ -100,7 +101,7 @@ function querySubmission () {
 
 	declare -r TEST_QUERY_SUBMISSION="\
 	UPDATE process SET judger='${JA_CLIENT_SIGNATURE}' WHERE judger IS NULL ORDER BY id LIMIT 1;\
-	SELECT student_account, item, subitem FROM process WHERE judger='${JA_CLIENT_SIGNATURE}';"
+	SELECT student_account, item, subitem, id FROM process WHERE judger='${JA_CLIENT_SIGNATURE}';"
 
 	local submission=$(mysqlQuery "${JA_MYSQL_OPTS}" "${TEST_QUERY_SUBMISSION}")
 
@@ -108,6 +109,7 @@ function querySubmission () {
 		STUDENT_ACCOUNT=$(fetchAssoc "${submission}" "${STUDENT_ACCOUNT}")
 		ITEM=$(fetchAssoc "${submission}" "${ITEM}")
 		SUBITEM=$(fetchAssoc "${submission}" "${SUBITEM}")	
+		ID=$(fetchAssoc "${submission}" ${ID})
 	else
 		echo "No new submission" >&2
 		exit 1
@@ -176,7 +178,7 @@ mkdir ${JA_CLIENT_DIR}/${JA_CLIENT_UNIQUE}
 mkdir ${JA_CLIENT_UNIQUE_DIR}
 JUDGEFILE="${JA_CLIENT_UNIQUE_DIR}/${JUDGESCRIPT}"
 echo ${CONTENT} > ${JUDGEFILE}
-exec ${CMD} ${JUDGEFILE} ${STUDENT_ACCOUNT} ${ITEM} ${SUBITEM}
+exec ${CMD} ${JUDGEFILE} ${STUDENT_ACCOUNT} ${ITEM} ${SUBITEM} ${ID}
 
 
 
