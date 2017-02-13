@@ -12,7 +12,7 @@ PID_JUDGER_FILE=judger.pid
 PID_MONITOR_FILE=monitor.pid
 LOG_JUDGER_FILE=judger.log
 LOG_MONITOR_FILE=monitor.log
-TMP_JUDGER_DIR=.process
+TMP_JUDGER_DIR=.script
 
 
 # Variable
