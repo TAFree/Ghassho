@@ -22,7 +22,7 @@ sudo ./judger.sh start
 ```
 
 ## Configuration
-Please change database information in _Ghassho\JudgeAdapter.php_.
+Please change database information in _Ghassho/JudgeAdapter.php_.
 ```
 interface IConnectInfo {
 	const HOST = '45.32.107.147';
