@@ -65,7 +65,7 @@ class JudgeAdapter {
 			echo $this->content;
 			
 			// Query command
-			$this->ext = substr($this->judgescript, ($this->judgescript, '.') + 1);
+			$this->ext = substr($this->judgescript, strrpos($this->judgescript, '.') + 1);
 			$stmt_cmd = $this->hookup->prepare('SELECT cmd FROM support WHERE ext=\'' . $this->ext . '\'');
 			$stmt_cmd->execute();
 			$row_cmd = $stmt_cmd->fetch(\PDO::FETCH_ASSOC);
@@ -77,6 +77,22 @@ class JudgeAdapter {
 			echo 'Error: ' . $e->getMessage() . '<br>';
 		}
 
+	}
+
+}
+
+class UniversalConnect implements IConnectInfo {
+	
+	private static $servername = IConnectInfo::HOST;
+	private static $dbname = IConnectInfo::DBNAME;
+	private static $username = IConnectInfo::UNAME;
+	private static $password = IConnectInfo::PW;
+	private static $conn;
+
+	public static function doConnect() {
+		self::$conn = new \PDO('mysql::host=' . self::$servername . ';dbname=' . self::$dbname, self::$username, self::$password);
+		self::$conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		return self::$conn;	
 	}
 
 }
