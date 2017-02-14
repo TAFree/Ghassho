@@ -81,6 +81,8 @@ class JudgeAdapter {
 			$this->cmd = $row_cmd['cmd'];
 			$this->cmd;
 
+			$this->hookup = null;
+
 			// Store judge script
 			$this->localfile = ILocalInfo::DIR . '/' . $this->judgescript;
 			$file = fopen($this->localfile, 'w') or die('Unable to open ' . $this->judgescript);
