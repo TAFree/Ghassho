@@ -20,3 +20,15 @@ git clone http://github.com/Tafree/Ghassho.git
 cd ./Ghassho
 sudo ./judger.sh start
 ```
+
+## Configuration
+Please change database infomation in _Ghassho\JudgeAdapter.php_.
+```
+interface IConnectInfo {
+	const HOST = '45.32.107.147';
+	const UNAME = 'ghassho';
+	const PW = 'ghasshodb';
+	const DBNAME = 'TAFreeDev';
+	public static function doConnect();
+}
+```
