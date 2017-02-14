@@ -6,3 +6,4 @@ monitor.pid
 
 # Ignore temporary process directory
 .process/*
+.script/*

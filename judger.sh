@@ -15,11 +15,16 @@ LOG_MONITOR_FILE=monitor.log
 TMP_JUDGER_DIR=.script
 
 
+## For research study
+TMP_RECORD_DIR=.process
+##
+
+
 # Variable
 ACTION=$1
 PID_JUDGER=""
 INTERVAL=1
-COMMAND=./judge_adapter.sh
+COMMAND="php JudgeAdapter.php"
 
 
 # Function
@@ -35,8 +40,17 @@ monitor() {
 }
 
 start_judger() {
+
+	## For research study 
+	if [ ! -d $TMP_RECORD_DIR ]; then
+		mkdir $TMP_RECORD_DIR
+		chmod 777 $TMP_RECORD_DIR
+	fi
+	##
+
 	if [ ! -d $TMP_JUDGER_DIR ]; then
 		mkdir $TMP_JUDGER_DIR
+		chmod 777 $TMP_JUDGER_DIR
 	elif [ -n "$(ls -a ${TMP_JUDGER_DIR})" ]; then
 		rm -rf $TMP_JUDGER_DIR/*
 	fi
