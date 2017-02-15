@@ -2,7 +2,7 @@
 A judge client for TAFree1.0.
 
 ## Prerequisite
-Ubuntu 16.04 LTS
+Ubuntu 16.04 LTS  
 Docker 1.13.1 (Optional)
 
 ## Build and Run in Docker Container 
