@@ -2,10 +2,12 @@
 A judge client for TAFree1.0.
 
 ## Prerequisite
-Docker 1.13.1
+Ubuntu 16.04 LTS
+Docker 1.13.1 (Optional)
 
 ## Build and Run in Docker Container 
-Please maintain related prerequisites in Docker Container.
+Please install packages for compiling and executing lab assignments.
+Oracle JDK 9 is already available.
 ```  
 sudo docker run -it derailment/ghassho:latest
 cd /home/Ghassho
@@ -21,19 +23,19 @@ Run
 ```
 
 ## Build and Run in OS / VM  
-Do not forget prerequisites for each judge script and lab assignment. 
+Do not forget to install packages for each judge script and lab assignment. 
 ```
-git clone http://github.com/Tafree/Ghassho.git
+sudo git clone http://github.com/Tafree/Ghassho.git
 cd ./Ghassho
 ```
 Change database information
 ```
-mv JudgeAdapter.php.example JudgeAdapter.php
-vi JudgeAdapter.php
+sudo mv JudgeAdapter.php.example JudgeAdapter.php
+sudo vi JudgeAdapter.php
 ```
 Run
 ```
-./judger.sh start
+sudo ./judger.sh start
 ```
 
 ## Configuration
