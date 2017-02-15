@@ -2,15 +2,22 @@
 A judge client for TAFree1.0 executing in Docker container.
 
 ## Prerequisite
-```
-sudo apt-get install docker....(unfinished)
-```
+Docker 1.13.1
 
-## Build and Run in Docker  
-Please maintain related prerequisites in Dockerfile.
+## Build and Run in Docker Container 
+Please maintain related prerequisites in Docker Container.
+```  
+sudo docker run -it derailment/ghassho:latest
+cd /home/Ghassho
 ```
-sudo docker pull ...(unfinished)  
-sudo docker run ...
+Change database information
+```
+mv JudgeAdapter.php.example JudgeAdapter.php
+vi JudgeAdapter.php
+```
+Run
+```
+./judger.sh start
 ```
 
 ## Build and Run in OS / VM  
@@ -18,7 +25,15 @@ Do not forget prerequisites for each judge script and lab assignment.
 ```
 git clone http://github.com/Tafree/Ghassho.git
 cd ./Ghassho
-sudo ./judger.sh start
+```
+Change database information
+```
+mv JudgeAdapter.php.example JudgeAdapter.php
+vi JudgeAdapter.php
+```
+Run
+```
+./judger.sh start
 ```
 
 ## Configuration
