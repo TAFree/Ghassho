@@ -7,3 +7,6 @@ monitor.pid
 # Ignore temporary process directory
 .process/*
 .script/*
+
+# Ignore file with database password
+JudgeAdapter.php
