@@ -6,7 +6,7 @@ Ubuntu 16.04 LTS
 Docker 1.13.1 (Optional)
 
 ## Build and Run in Docker Container 
-Please install packages for compiling and executing lab assignments.
+Please install packages for compiling and executing lab assignments.  
 Oracle JDK 9 is already available.
 ```  
 sudo docker run -it derailment/ghassho:latest
