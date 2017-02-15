@@ -9,7 +9,7 @@ Docker 1.13.1 (Optional)
 Please install packages for compiling and executing lab assignments.  
 Oracle JDK 9 is already available.
 ```  
-sudo docker run -it derailment/Ghassho:latest
+sudo docker run -it derailment/ghassho:latest
 cd /home/Ghassho
 ```
 Change database information
