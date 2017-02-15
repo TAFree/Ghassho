@@ -1,5 +1,5 @@
 # Ghassho
-A judge client for TAFree1.0 executing in Docker container.
+A judge client for TAFree1.0.
 
 ## Prerequisite
 Docker 1.13.1
